@@ -12,6 +12,9 @@ class BlogViewArticles extends JViewLegacy
 
         $this->items = $this->get('Items');
 
+        // 分頁查詢
+        $this->pagination = $this->get('Pagination');
+
         // 加上後台的頁面標題
         $this->addToolbar();
 
