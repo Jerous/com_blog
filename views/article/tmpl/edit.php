@@ -3,6 +3,24 @@
 
 defined('_JEXEC') or die;
 
+// 在任何地方呼叫JTable都用getInstance
+$table = JTable::getInstance('Article', 'BlogTable');
+
+// 讀取記錄
+$table->load($this->item->id);
+
+// Table 本身就是 data 容器，直接取值即可
+echo $table->title;
+echo $table->alias;
+
+// 也可以直接塞資料
+// $table->title = 'New Title';
+
+// 或是綁定一個陣列進去
+// $table->bind($data);
+
+// 然後儲存，store() 會自動幫你判斷id存在與否而選擇 insert 或 update
+// $table->store();
 ?>
 
 <h1>Article Edit</h1>

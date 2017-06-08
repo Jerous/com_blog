@@ -7,6 +7,9 @@ class BlogModelArticle extends JModelLegacy
 {
     public function getItem()
     {
+        // 在 Model中呼叫JTable
+        // $table = $this->getTable('Article', 'BlogTable');
+
         $input = JFactory::getApplication()->input;
 
         $id = $input->get('id');

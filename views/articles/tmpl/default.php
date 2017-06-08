@@ -8,6 +8,10 @@
 // 注意一下最下方還加上了兩個 Hidden inputs，每個頁面都要有 option 與 task 兩個 hidden inputs，這樣 post 出去時，才能正確導向我們想要的 Blog 元件。其中 task input 一旦缺少了，所有按鈕都會無法運作。
 
 defined('_JEXEC') or die;
+
+$table = JTable::getInstance('Article', 'BlogTable');
+
+
 ?>
 <form action="<?php echo JUri::getInstance(); ?>" id="adminForm" name="adminForm" method="post">
     <table class="table table-striped">
