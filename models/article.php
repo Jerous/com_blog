@@ -5,12 +5,19 @@ defined('_JEXEC') or die;
 
 class BlogModelArticle extends JModelLegacy
 {
+    // 寫一個代理方法，繼承 parent 的 getTable():
+    public function getTable($name = 'Article', $prefix = 'BlogTable', $options = array())
+    {
+        return parent::getTable($name, $prefix, $options);
+    }
+
     public function getItem()
     {
         // 在 Model中呼叫JTable
         // $table = $this->getTable('Article', 'BlogTable');
 
-        $table = JTable::getInstance('Article', 'BlogTable');
+        // $table = JTable::getInstance('Article', 'BlogTable');
+        $table = $this->getTable();
 
         $input = JFactory::getApplication()->input;
 
@@ -77,7 +84,8 @@ class BlogModelArticle extends JModelLegacy
         // return true;
 
 
-        $table = $this->getTable('Article', 'BlogTable');
+        // $table = $this->getTable('Article', 'BlogTable');
+        $table = $this->getTable();
         // 綁定一個陣列進去
         $table->bind($data);
         // 會自動幫你判斷id存在與否而選擇 insert 或 update
@@ -89,7 +97,8 @@ class BlogModelArticle extends JModelLegacy
         // $sql = "DELETE FROM wizhb_blog_articles WHERE id = " . (int) $id;
         // return $this->_db->setQuery($sql)->execute();
 
-        $table = $this->getTable('Article', 'BlogTable');
+        // $table = $this->getTable('Article', 'BlogTable');
+        $table = $this->getTable();
         return $table->delete($id);
     }
 }
