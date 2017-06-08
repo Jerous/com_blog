@@ -3,6 +3,35 @@
 
 defined('_JEXEC') or die;
 
+/* 
+有比較複雜的查詢邏輯，我們無法方便的用 Table 來取得資料，可藉由物件導向的方法來寫出 SQL 指令，這個物件叫做 Query Builder
+
+// 取得 Query Builder，true 代表一個新的物件。沒有 true 的話會取得上一次 setQuery() 的內容。
+$query = $db->getQuery(true);
+
+//簡單的 select
+$query->select('*')
+    ->from('#__my_table')
+    ->where('id = 12')
+    ->where('state >= 1')
+    ->order('date ASC');
+
+// 簡單的 insert
+$query->insert('#__my_table')
+    ->columns('title, alias, introtext')
+    ->values($values);
+
+// 簡單的 Update
+$query->update('#__my_table')
+    ->set('title = "New Title"')
+    ->set('alias = "New Alias"')
+    ->where('id = 12');
+
+// 簡單的 Delete
+$query->delete('#__my_table')
+    ->where('id = 15');
+*/
+
 class BlogModelArticles extends JModelLegacy
 {
     // 建議要嚴格遵守單複數的命名。因為我們取的是複數資料，一定要命名 items 與 articles 才不會混淆。
@@ -12,10 +41,17 @@ class BlogModelArticles extends JModelLegacy
         // Or using $db = $this->_db;
         $db = JFactory::getDbo();
 
-        // SQL 字串用 setQuery() 餵給 DB 物件
-        $sql = "SELECT * FROM wizhb_blog_articles";
+        // // SQL 字串用 setQuery() 餵給 DB 物件
+        // $sql = "SELECT * FROM wizhb_blog_articles";
 
-        $db->setQuery($sql);
+        $query = $db->getQuery(true);
+
+        $query->select('*')
+            ->from('#__blog_articles')
+            // ->where('published >= 1')
+            ->order('id ASC');
+
+        $db->setQuery($query);
 
         // 執行 loadObjectList() 就能取得多筆 Record 資料，每筆資料都是物件，全部包成一個陣列回傳。
         // If not thing found, return empty array.
