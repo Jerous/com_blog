@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-$table = JTable::getInstance('Article', 'BlogTable');
-
-
+// 取得目前的排序狀態，第二個參數是如果沒有時的預設值
+$currentOrder = $this->state->get('list.ordering', 'id');
+$currentDir   = $this->state->get('list.direction', 'asc');
 ?>
 <form action="<?php echo JUri::getInstance(); ?>" id="adminForm" name="adminForm" method="post">
 
@@ -27,12 +27,21 @@ $table = JTable::getInstance('Article', 'BlogTable');
     <table class="table table-striped">
         <thead>
             <tr>
+                <!--
                 <th>ID</th>
                 <th>Title</th>
                 <th>Intro php內建的substr</th>
                 <th>Intro JString</th>
                 <th>Full JString</th>
                 <th>Delete</th>
+                -->
+
+                <!-- 改用 JHtmlGrid::sort() -->
+                <th><?php echo JHtmlGrid::sort('ID', 'id', $currentDir, $currentOrder); ?></th>
+                <th><?php echo JHtmlGrid::sort('Title', 'title', $currentDir, $currentOrder); ?></th>
+                <th><?php echo JHtmlGrid::sort('Introtext', 'introtext', $currentDir, $currentOrder); ?></th>
+                <th><?php echo JHtmlGrid::sort('Fulltext', 'fulltext', $currentDir, $currentOrder); ?></th>
+                <th><?php echo JHtmlGrid::sort('Delete', 'delete', $currentDir, $currentOrder); ?></th>
             </tr>
         </thead>
         <tbody>
@@ -45,7 +54,7 @@ $table = JTable::getInstance('Article', 'BlogTable');
                     </a>
                 </td>
                 <!-- php內建的substr()會無法判斷中文的字元數，因而我們限制50會造成最後面擷取剩下兩個字元的亂碼。 -->
-                <td><?php echo substr(strip_tags($item->introtext), 0, 50); ?></td>
+                <!--<td><?php echo substr(strip_tags($item->introtext), 0, 50); ?></td>-->
 
                 <!-- JString 是很實用的 UTF-8 字元處理工具，再日後處理文字時，我們應該都要優先使用 JString -->
                 <td><?php echo JString::substr(strip_tags($item->introtext), 0, 50); ?></td>
@@ -64,5 +73,8 @@ $table = JTable::getInstance('Article', 'BlogTable');
     <div class="hidden-inputs">
         <input type="hidden" name="option" value="com_blog" />
         <input type="hidden" name="task" value="" />
+
+        <input name="filter_order" type="hidden" value="<?php echo $currentOrder; ?>" />
+        <input name="filter_order_Dir" type="hidden" value="<?php echo $currentDir ?>" />
     </div>
 </form>

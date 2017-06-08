@@ -5,8 +5,6 @@ defined('_JEXEC') or die;
 
 /* 
 有比較複雜的查詢邏輯，我們無法方便的用 Table 來取得資料，可藉由物件導向的方法來寫出 SQL 指令，這個物件叫做 Query Builder
-
-// 取得 Query Builder，true 代表一個新的物件。沒有 true 的話會取得上一次 setQuery() 的內容。
 $query = $db->getQuery(true);
 
 //簡單的 select
@@ -46,6 +44,9 @@ class BlogModelArticles extends JModelLegacy
         // 搜尋條件能夠保存在瀏覽器中，直到你清空搜尋條件為止。我們可以改用 Session 來記錄搜尋欄位。
         // 這個功能會自動從 request 拿資料並存放到 session，如果下一次發現 request 內沒有值的時候，就會拿 session 內的當預設值，如果 request 有值的時候，就會覆蓋掉 session。
         $this->setState('filter.search', $app->getUserStateFromRequest('blog.articles.search', 'filter_search'));
+
+        $this->setState('list.ordering', $app->getUserStateFromRequest('blog.articles.ordering', 'filter_order'));
+        $this->setState('list.direction', $app->getUserStateFromRequest('blog.articles.direction', 'filter_order_Dir'));
     }
 
     // 建議要嚴格遵守單複數的命名。因為我們取的是複數資料，一定要命名 items 與 articles 才不會混淆。
@@ -58,7 +59,12 @@ class BlogModelArticles extends JModelLegacy
         // // SQL 字串用 setQuery() 餵給 DB 物件
         // $sql = "SELECT * FROM wizhb_blog_articles";
 
+        // 取得 Query Builder，true 代表一個新的物件。沒有 true 的話會取得上一次 setQuery() 的內容。
         $query = $db->getQuery(true);
+
+        // 把 order 用的 state 拿出來（第二個參數是不存在時的預設值）
+        $ordering   = $this->getState('list.ordering', 'id');
+        $direction = $this->getState('list.direction', 'asc');
 
         // 接下來從 state 中把 search 內容拿出來
         $search = $this->getState('filter.search');
@@ -77,9 +83,10 @@ class BlogModelArticles extends JModelLegacy
         }
 
         $query->select('*')
-            ->from('#__blog_articles')
+            ->from('wizhb_blog_articles')
             // ->where('published >= 1')
-            ->order('id ASC');
+            // ->order('id ASC');
+            ->order('`' . $ordering . '`' . ' ' . $direction);
 
         $db->setQuery($query);
 
