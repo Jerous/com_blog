@@ -63,7 +63,13 @@ class BlogModelArticles extends JModelLegacy
         if ($search)
         {
             // 如何使用 MySQL LIKE 模糊搜尋 http://goo.gl/k9vJOi
-            $query->where('title LIKE "%' . $search . '%"');
+            // $query->where('title LIKE "%' . $search . '%"');
+
+            $conditions = '(`title` LIKE "%' . $search . '%"';
+            $conditions .= ' OR `introtext` LIKE "%' . $search . '%"';
+            $conditions .= ' OR `fulltext` LIKE "%' . $search . '%")';
+
+            $query->where($conditions);
         }
 
         $query->select('*')
