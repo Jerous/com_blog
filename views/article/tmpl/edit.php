@@ -15,12 +15,6 @@ echo $table->alias;
 
 // 也可以直接塞資料
 // $table->title = 'New Title';
-
-// 或是綁定一個陣列進去
-// $table->bind($data);
-
-// 然後儲存，store() 會自動幫你判斷id存在與否而選擇 insert 或 update
-// $table->store();
 ?>
 
 <h1>Article Edit</h1>
