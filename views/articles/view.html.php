@@ -7,6 +7,9 @@ class BlogViewArticles extends JViewLegacy
 {
     public function display($tpl = null)
     {
+        // 加上下面這行，把 Model中的State 拿出來用
+        $this->state = $this->get('State');
+
         $this->items = $this->get('Items');
 
         // 加上後台的頁面標題

@@ -34,6 +34,16 @@ $query->delete('#__my_table')
 
 class BlogModelArticles extends JModelLegacy
 {
+    protected function populateState()
+    {
+        $app = JFactory::getApplication();
+        $input = $app->input;
+
+        // 我們把 filter_search 從 request 中拿出來，暫存在 filter.search 的 state 中
+        // Model 的 State 是一種狀態，我們可以隨時改變這個狀態內儲存的值，就能改變Model 的行為。
+        $this->setState('filter.search', $input->getString('filter_search'));
+    }
+
     // 建議要嚴格遵守單複數的命名。因為我們取的是複數資料，一定要命名 items 與 articles 才不會混淆。
     public function getItems()
     {
@@ -45,6 +55,16 @@ class BlogModelArticles extends JModelLegacy
         // $sql = "SELECT * FROM wizhb_blog_articles";
 
         $query = $db->getQuery(true);
+
+        // 接下來從 state 中把 search 內容拿出來
+        $search = $this->getState('filter.search');
+
+        // 如果有的話，就加上 LIKE 的 SQL 來做搜尋
+        if ($search)
+        {
+            // 如何使用 MySQL LIKE 模糊搜尋 http://goo.gl/k9vJOi
+            $query->where('title LIKE "%' . $search . '%"');
+        }
 
         $query->select('*')
             ->from('#__blog_articles')
