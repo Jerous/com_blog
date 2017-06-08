@@ -2,6 +2,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.3" method="upgrade">
     <name>com_blog</name>
+    <creationDate>2017-06-08</creationDate>
+    <author>Jerous Lu</author>
+    <authorEmail>tlu37317@gmail.com</authorEmail>
+    <authorUrl>http://www.tellustek.com</authorUrl>
+    <copyright>Copyright Info</copyright>
+    <license>License Info</license>
+    <version>0.0.1</version>
+    <description>This is a blog system</description>
 
     <administration>
         <menu>com_blog</menu>
