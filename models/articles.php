@@ -41,7 +41,11 @@ class BlogModelArticles extends JModelLegacy
 
         // 我們把 filter_search 從 request 中拿出來，暫存在 filter.search 的 state 中
         // Model 的 State 是一種狀態，我們可以隨時改變這個狀態內儲存的值，就能改變Model 的行為。
-        $this->setState('filter.search', $input->getString('filter_search'));
+        // $this->setState('filter.search', $input->getString('filter_search'));
+
+        // 搜尋條件能夠保存在瀏覽器中，直到你清空搜尋條件為止。我們可以改用 Session 來記錄搜尋欄位。
+        // 這個功能會自動從 request 拿資料並存放到 session，如果下一次發現 request 內沒有值的時候，就會拿 session 內的當預設值，如果 request 有值的時候，就會覆蓋掉 session。
+        $this->setState('filter.search', $app->getUserStateFromRequest('blog.articles.search', 'filter_search'));
     }
 
     // 建議要嚴格遵守單複數的命名。因為我們取的是複數資料，一定要命名 items 與 articles 才不會混淆。
