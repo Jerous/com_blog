@@ -86,8 +86,10 @@ class BlogModelArticle extends JModelLegacy
 
     public function delete($id)
     {
-        $sql = "DELETE FROM wizhb_blog_articles WHERE id = " . (int) $id;
+        // $sql = "DELETE FROM wizhb_blog_articles WHERE id = " . (int) $id;
+        // return $this->_db->setQuery($sql)->execute();
 
-        return $this->_db->setQuery($sql)->execute();
+        $table = $this->getTable('Article', 'BlogTable');
+        return $table->delete($id);
     }
 }
