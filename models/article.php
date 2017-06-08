@@ -10,6 +10,8 @@ class BlogModelArticle extends JModelLegacy
         // 在 Model中呼叫JTable
         // $table = $this->getTable('Article', 'BlogTable');
 
+        $table = JTable::getInstance('Article', 'BlogTable');
+
         $input = JFactory::getApplication()->input;
 
         $id = $input->get('id');
@@ -19,9 +21,11 @@ class BlogModelArticle extends JModelLegacy
             return false;
         }
 
-        $sql = "SELECT * FROM wizhb_blog_articles WHERE id = " . $id;
-
-        return $this->_db->setQuery($sql)->loadObject();
+        // $sql = "SELECT * FROM wizhb_blog_articles WHERE id = " . $id;
+        // return $this->_db->setQuery($sql)->loadObject();
+        
+        $table->load($id);
+        return $table;
     }
 
     public function save($data)
