@@ -47,6 +47,12 @@ echo $table->alias;
                 <?php echo JHtml::calendar($this->item->created, 'created', 'form-created'); ?>
             </div>
         </div>
+
+        <!-- Published -->
+        <div class="control-group">
+            <label for="form-created" class="control-label">Published</label>
+            <?php echo JHtmlSelect::booleanlist('published', array(), $this->item->published); ?>
+        </div>
     </fieldset>
 
     <fieldset>

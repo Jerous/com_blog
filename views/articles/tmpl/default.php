@@ -39,6 +39,7 @@ $currentDir   = $this->state->get('list.direction', 'asc');
                 <!-- 改用 JHtmlGrid::sort() -->
                 <th><?php echo JHtmlGrid::sort('ID', 'id', $currentDir, $currentOrder); ?></th>
                 <th><?php echo JHtmlGrid::sort('Title', 'title', $currentDir, $currentOrder); ?></th>
+                <th><?php echo JHtmlGrid::sort('Published', 'published', $currentDir, $currentOrder); ?></th>
                 <th><?php echo JHtmlGrid::sort('Introtext', 'introtext', $currentDir, $currentOrder); ?></th>
                 <th><?php echo JHtmlGrid::sort('Fulltext', 'fulltext', $currentDir, $currentOrder); ?></th>
                 <th><?php echo JHtmlGrid::sort('Delete', 'delete', $currentDir, $currentOrder); ?></th>
@@ -53,6 +54,16 @@ $currentDir   = $this->state->get('list.direction', 'asc');
                         <?php echo $this->escape($item->title); ?>
                     </a>
                 </td>
+                
+                <!--發佈狀態的顯示，1是發佈，0是未發佈-->
+                <td>
+                    <?php if ($item->published): ?>
+                    <span class="label label-success">發佈</span>
+                    <?php else: ?>
+                    <span class="label label-important">未發佈</span>
+                    <?php endif; ?>
+                </td>
+
                 <!-- php內建的substr()會無法判斷中文的字元數，因而我們限制50會造成最後面擷取剩下兩個字元的亂碼。 -->
                 <!--<td><?php echo substr(strip_tags($item->introtext), 0, 50); ?></td>-->
 
