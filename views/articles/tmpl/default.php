@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 // 取得目前的排序狀態，第二個參數是如果沒有時的預設值
 $currentOrder = $this->state->get('list.ordering', 'id');
 $currentDir   = $this->state->get('list.direction', 'asc');
+
+$filterPublished = (string) $this->state->get('filter.published', '');
 ?>
 <form action="<?php echo JUri::getInstance(); ?>" id="adminForm" name="adminForm" method="post">
 
@@ -21,6 +23,15 @@ $currentDir   = $this->state->get('list.direction', 'asc');
             <button type="submit" class="btn">
                 <i class="icon-search"></i>
             </button>
+        </div>
+
+        <!-- 加一個 onchange="this.form.submit();" 的屬性，一旦變更項目，就會自動把表單 post 出去 -->
+        <div class="pull-right filter-inputs">
+            <select name="filter_published" id="filter_published" onchange="this.form.submit();">
+                <option value="">- 請選擇 -</option>
+                <option value="1" <?php echo ($filterPublished == '1') ? 'selected="selected"' : ''; ?>>發佈</option>
+                <option value="0" <?php echo ($filterPublished == '0') ? 'selected="selected"' : ''; ?>>未發佈</option>
+            </select>
         </div>
     </div>
 
@@ -54,7 +65,7 @@ $currentDir   = $this->state->get('list.direction', 'asc');
                         <?php echo $this->escape($item->title); ?>
                     </a>
                 </td>
-                
+
                 <!--發佈狀態的顯示，1是發佈，0是未發佈-->
                 <td>
                     <?php if ($item->published): ?>

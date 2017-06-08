@@ -47,6 +47,8 @@ class BlogModelArticles extends JModelLegacy
 
         $this->setState('list.ordering', $app->getUserStateFromRequest('blog.articles.ordering', 'filter_order'));
         $this->setState('list.direction', $app->getUserStateFromRequest('blog.articles.direction', 'filter_order_Dir'));
+
+        $this->setState('filter.published', $app->getUserStateFromRequest('blog.articles.published', 'filter_published'));
     }
 
     // 建議要嚴格遵守單複數的命名。因為我們取的是複數資料，一定要命名 items 與 articles 才不會混淆。
@@ -65,6 +67,7 @@ class BlogModelArticles extends JModelLegacy
         // 把 order 用的 state 拿出來（第二個參數是不存在時的預設值）
         $ordering   = $this->getState('list.ordering', 'id');
         $direction = $this->getState('list.direction', 'asc');
+        $published = $this->getState('filter.published', '');
 
         // 接下來從 state 中把 search 內容拿出來
         $search = $this->getState('filter.search');
@@ -80,6 +83,12 @@ class BlogModelArticles extends JModelLegacy
             $conditions .= ' OR `fulltext` LIKE "%' . $search . '%")';
 
             $query->where($conditions);
+        }
+
+        // 只要不是空字串，就加上 where 過濾
+        if ($published !== '')
+        {
+            $query->where('published = ' . $published);
         }
 
         $query->select('*')
