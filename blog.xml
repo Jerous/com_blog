@@ -12,6 +12,6 @@
     <description>This is a blog system</description>
 
     <administration>
-        <menu>com_blog</menu>
+        <menu link='index.php?option=com_helloworld'>客製化部落格系統</menu>
     </administration>
 </extension>
